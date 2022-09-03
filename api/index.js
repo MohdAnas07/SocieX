@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const helmet = require('helmet');
+const cors = require('cors');
 
 const userRoute = require('./routes/users.js');
 const authRoute = require('./routes/auth.js');
@@ -33,6 +34,7 @@ require('./db/config')
 app.use(express.json());
 app.use(helmet());
 app.use(morgan('common'));
+app.use(cors());
 
 // ROUTEs ============================>>
 
