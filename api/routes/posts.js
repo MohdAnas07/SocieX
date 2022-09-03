@@ -86,6 +86,18 @@ router.get('/timeline/:userId', async (req, res) => {
     }
 })
 
+// GET USER's ALL POSTS
+router.get('/profile/:username', async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.params.username });
+        const posts = await Post.find({ userId: user._id });
+        res.status(200).json(posts);
+
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
 
 // GET A POST
 router.get('/:id', async (req, res) => {

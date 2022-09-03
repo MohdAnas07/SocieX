@@ -5,24 +5,21 @@ import './feed.css'
 import { Posts } from '../../dummyData';
 import axios from 'axios';
 
-export default function Feed() {
+export default function Feed({ username }) {
 
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
         const fetchPosts = async () => {
-            await axios.get("http://localhost:5000/api/posts/timeline/630f07f742230b5b011bb25a")
-                .then((res) => {
-                    setPosts(res.data)
-                    console.log(res.data)
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
+            const res = username
+                ? await axios.get(`http://localhost:5000/api/posts/profile/${username}`)
+                : await axios.get("http://localhost:5000/api/posts/timeline/630f07f742230b5b011bb25a")
+
+            setPosts(res.data)
         }
         fetchPosts()
 
-    }, [])
+    }, [username])
 
     return (
         <div className='feed'>
