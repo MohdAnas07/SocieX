@@ -9,7 +9,7 @@ export default function Rightbar({ user }) {
 
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
-    const relation = { "1": "single", "2": "married", "3": "complex" }
+    const relation = { "1": "Single", "2": "Married", "3": "Complex" }
 
 
     const HomeRightbar = () => {

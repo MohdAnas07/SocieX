@@ -137,3 +137,32 @@
 .visibleOn{
     color: rgb(78, 78, 78);
 }
+/* 
+.inputBox{
+    position: relative;
+}
+
+input:focus ~ .floating-label,
+input:not(:focus):valid ~ .floating-label{
+  top: -7px;
+  bottom: 10px;
+  left: 20px;
+  font-size: 11px;
+  opacity: 1;
+  color:#000;
+}
+
+.inputText {
+  font-size: 14px;
+}
+
+.floating-label {
+  position: absolute;
+  pointer-events: none;
+  left: 20px;
+  top: 10px;
+  transition: 0.2s ease all;
+  background-color: #fff;
+  height: 14px;
+  color:rgb(185, 185, 185)
+} */

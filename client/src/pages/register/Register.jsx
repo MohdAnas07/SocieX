@@ -20,13 +20,17 @@ const Register = () => {
                     <div className="registerLeftWrapper">
                         <h4 className="loginLogo">SocieX</h4>
                         <div className="loginBox">
-                            <input placeholder='Enter Username' className='loginInput' />
-                            <input placeholder='Enter Email' className='loginInput' />
+                            <input type='email' required placeholder="Username" className='loginInput inputText' />
+                            <input type='email' required placeholder="Email Address" className='loginInput inputText' />
+
                             <div className="loginPasswordVisibility">
-                                <input type={!isVisible ? "password" : "text"} placeholder='Enter Password' className='loginInput passwordInput' />
+                                <input type={!isVisible ? "password" : "text"} placeholder="Password" required
+                                    minLength="6" className='loginInput passwordInput inputText' />
                                 {isVisible ? <VisibilityIcon className='visibilityIcon visibleOn' onClick={passwordVisibleHandler} /> : <VisibilityOffIcon className='visibilityIcon' onClick={passwordVisibleHandler} />}
+
                             </div>
-                            <input type={!isVisible ? "password" : "text"} placeholder='Enter Password again' className='loginInput' />
+                            <input type={!isVisible ? "password" : "text"}
+                                placeholder="Enter Password Again" className='loginInput inputText' required />
 
                             <button className="loginButton">Sign Up</button>
 
