@@ -54,6 +54,11 @@
     cursor: pointer;
 }
 
+#file{
+    display: none;
+}
+
+
 .shareIcon{
     /* font-size: 18px !important; */
     margin-right: 3px;

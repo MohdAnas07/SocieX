@@ -7,6 +7,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { loginCall } from '../../apiCalls';
 import { AuthContext } from '../../context/AuthContext.js'
 import { CircularProgress } from '@mui/material';
+import { useEffect } from 'react';
 
 
 const Login = () => {

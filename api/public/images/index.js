@@ -6,7 +6,6 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 const multer = require('multer');
-const path = require("path");
 
 const userRoute = require('./routes/users.js');
 const authRoute = require('./routes/auth.js');
@@ -31,10 +30,6 @@ require('./db/config')
 //     }
 // )
 
-
-app.use("/images", express.static(path.join(__dirname, "public/images")));
-
-
 // middleware ===============
 
 app.use(express.json());
@@ -48,10 +43,9 @@ const storage = multer.diskStorage({
         cb(null, "public/images")
     },
     filename: (req, file, cb) => {
-        cb(null, req.body.name)
+        cb(null, file.originalname)
     }
 })
-
 
 const upload = multer({ storage })
 
