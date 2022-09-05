@@ -91,6 +91,9 @@
     font-weight: 500;
     color: #fff;
 }
+.loginButton:disabled{
+    cursor: not-allowed;
+}
 
 .loginExtraButtons{
     display: flex;

@@ -6,6 +6,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import { loginCall } from '../../apiCalls';
 import { AuthContext } from '../../context/AuthContext.js'
+import { CircularProgress } from '@mui/material';
 
 
 const Login = () => {
@@ -25,6 +26,8 @@ const Login = () => {
             email: email.current.value,
             password: password.current.value
         }, dispatch);
+
+        // console.log('not user');
     }
 
     console.log(user);
@@ -37,7 +40,7 @@ const Login = () => {
                     <div className="loginLeftWrapper">
                         <h4 className="loginLogo">SocieX</h4>
                         <form className="loginBox" onSubmit={formHandler}>
-
+                            {error ? <span style={{ 'color': 'red' }}>please enter correct credentials</span> : ""}
                             <input type='email' required placeholder='Email Address' ref={email} className='loginInput inputText' />
 
 
@@ -47,10 +50,12 @@ const Login = () => {
                                 {isVisible ? <VisibilityIcon className='visibilityIcon visibleOn' onClick={passwordVisibleHandler} /> : <VisibilityOffIcon className='visibilityIcon' onClick={passwordVisibleHandler} />}
 
                             </div>
-                            <button className="loginButton">{isFetching ? "Loading" : " Log In"}</button>
+                            <button className="loginButton" disabled={isFetching}>{isFetching ? <CircularProgress color="inherit" size="20px" /> : " Log In"}</button>
                             <div className="loginExtraButtons">
                                 <span className="loginForgot">forgot password?</span>
-                                <Link to="/register"><button className="loginRegisterButton">create an account</button></Link>
+                                <Link to="/register"><button className="loginRegisterButton">
+                                    {isFetching ? <CircularProgress color="inherit" size="20px" /> : " create an account"}
+                                </button></Link>
                             </div>
                         </form>
                     </div>
