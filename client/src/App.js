@@ -17,9 +17,9 @@ function App() {
 
   const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(user))
-  }, [user])
+  // useEffect(() => {
+  //   localStorage.setItem('user', JSON.stringify(user))
+  // }, [user])
 
   return (
     <BrowserRouter>
