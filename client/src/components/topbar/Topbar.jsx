@@ -1,17 +1,28 @@
 import React, { useContext } from 'react'
 import './topbar.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person'
 import ChatIcon from '@mui/icons-material/Chat';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import LogoutIcon from '@mui/icons-material/Logout';
+
 import { AuthContext } from '../../context/AuthContext';
+
 
 export default function Topbar() {
 
     const { user } = useContext(AuthContext);
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-    console.log(user, PF + user.userProfile);
+    const navigate = useNavigate()
+    // console.log(user, PF + user.userProfile);
+
+
+    const logoutHandler = () => {
+        localStorage.setItem("user", null);
+        navigate('/login')
+        console.log(user);
+    }
 
     return (
         <div className="topbarContainer">
@@ -44,6 +55,7 @@ export default function Topbar() {
                     </div>
                 </div>
                 <Link to={`/profile/${user.username}`}><img src={user.userProfile ? PF + user.userProfile : PF + '/noAvatar.webp'} alt="" className="topbarImg" /></Link>
+                {user && <LogoutIcon onClick={logoutHandler} />}
             </div>
         </div>
     )

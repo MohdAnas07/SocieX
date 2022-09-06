@@ -18,7 +18,7 @@ const Profile = () => {
 
             const res = await axios.get(`http://localhost:5000/api/users?username=${username}`)
             setUser(res.data)
-            console.log(res.data);
+            // console.log(res.data);
         }
         fetchUser()
 
