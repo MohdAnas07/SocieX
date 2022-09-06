@@ -23,12 +23,12 @@ const Login = () => {
     // From submit handler function 
     const formHandler = async (e) => {
         e.preventDefault()
+
         loginCall({
             email: email.current.value,
             password: password.current.value
         }, dispatch);
 
-        // console.log('not user');
     }
 
     console.log(user);
@@ -41,9 +41,8 @@ const Login = () => {
                     <div className="loginLeftWrapper">
                         <h4 className="loginLogo">SocieX</h4>
                         <form className="loginBox" onSubmit={formHandler}>
-                            {error ? <span style={{ 'color': 'red' }}>please enter correct credentials</span> : ""}
+                            {error ? <span style={{ 'color': 'red' }}>please enter correct credentials and refresh page</span> : ""}
                             <input type='email' required placeholder='Email Address' ref={email} className='loginInput inputText' />
-
 
                             <div className="loginPasswordVisibility">
                                 <input type={!isVisible ? "password" : "text"} required placeholder='Password'
@@ -67,7 +66,6 @@ const Login = () => {
                     <img src='assets/login.svg' alt="" className="loginRightImg" />
                     <span className="loginDesc"> connect with friends and world around you on SocieX.</span>
                 </div>
-
 
             </div>
         </div>

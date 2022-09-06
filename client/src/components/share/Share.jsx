@@ -35,6 +35,8 @@ const Share = () => {
             try {
                 await axios.post("http://localhost:5000/api/upload", data)
                 window.location.reload()
+                setFile(null)
+
             } catch (error) {
                 console.warn(error)
             }
@@ -42,6 +44,9 @@ const Share = () => {
 
         try {
             await axios.post("http://localhost:5000/api/posts", newPost);
+            window.location.reload()
+            desc.current.value = ''
+
         } catch (error) {
             console.warn(error);
         }
