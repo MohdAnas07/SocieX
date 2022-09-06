@@ -5,6 +5,7 @@ import './rightbar.css'
 import { Users } from '../../dummyData'
 import axios from 'axios';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 
 export default function Rightbar({ user }) {
@@ -20,9 +21,6 @@ export default function Rightbar({ user }) {
         }
         getFriends()
     }, [user._id])
-
-    console.log(friends)
-
 
     const HomeRightbar = () => {
         return (
@@ -77,16 +75,21 @@ export default function Rightbar({ user }) {
                     </div>
                 </div>
                 <h4 className="rightbarProfileTitle"> User Friends</h4>
+
+
                 <div className="rightbarFollowings">
                     {
-                        friends && friends.map((friend) => {
-                            return (
+                        friends && friends.map((friend) => (
+                            <Link key={friend._id} to={`/profile/${friend.username}`}>
                                 <div key={friend._id} className="rightbarFollowing">
                                     <img src={friend.userProfile ? PF + friend.userProfile : PF + '/noAvatar.webp'} alt="" className="rightbarFollowingImg" />
                                     <span className="rightbarFollowingName">{friend.username}</span>
                                 </div>
-                            )
-                        })
+
+                            </Link>
+
+                        )
+                        )
                     }
                 </div>
 

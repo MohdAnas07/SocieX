@@ -72,5 +72,5 @@ app.use("/api/posts", postRoute);
 
 
 app.listen(5000, () => {
-    console.log('server is listening at port 8800')
+    console.log('server is listening at port 5000')
 })
