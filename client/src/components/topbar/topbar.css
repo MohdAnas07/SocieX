@@ -118,10 +118,11 @@
 
 .searchUserWrapper{
     padding: 20px;
+    text-align: center;
 }
 
 .searchUserBox{
-    /* border: 1px solid; */
+    border: .5px solid rgb(117, 117, 117);
     display: flex;
     align-items: center;
     justify-content: space-between;

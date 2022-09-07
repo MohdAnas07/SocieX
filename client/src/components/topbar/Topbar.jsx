@@ -17,7 +17,9 @@ export default function Topbar() {
     const { user } = useContext(AuthContext);
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const [allUsers, setAllUsers] = useState([])
+    const [allSearchUser, setAllSearchUser] = useState([])
     const [searchUsername, setSearchUsername] = useState('')
+
     const searchUser = useRef()
 
 
@@ -43,6 +45,10 @@ export default function Topbar() {
 
     const searchUserHandler = () => {
         setSearchUsername(searchUser.current.value)
+        const all = allUsers.filter(u => {
+            return u.username.includes(searchUsername);
+        })
+        setAllSearchUser(all)
         console.log(searchUsername)
     }
 
@@ -83,7 +89,7 @@ export default function Topbar() {
                 searchUsername && <div className="searchUserContainer">
                     <div className="searchUserWrapper">
                         {
-                            allUsers && allUsers.map(u => (
+                            allSearchUser.length > 0 ? allSearchUser.map(u => (
                                 <div key={u._id} className="searchUserBox">
                                     <div className="userInfo">
                                         <img src={u.userProfile ? PF + u.userProfile : PF + '/noAvatar.webp'} alt="" className="searchUserImg" />
@@ -98,10 +104,11 @@ export default function Topbar() {
                                     }
                                 </div>
                             ))
+                                : <span style={{ 'textAlign': 'center' }}>No User Found</span>
                         }
                     </div>
                 </div>
             }
-        </div>
+        </div >
     )
 }
