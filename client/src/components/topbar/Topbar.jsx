@@ -19,9 +19,7 @@ export default function Topbar() {
     const [allUsers, setAllUsers] = useState([])
     const [allSearchUser, setAllSearchUser] = useState([])
     const [searchUsername, setSearchUsername] = useState('')
-
     const searchUser = useRef()
-
 
     useEffect(() => {
         const getAllUsers = async () => {
@@ -35,8 +33,6 @@ export default function Topbar() {
         getAllUsers()
     }, [])
 
-    console.log(allUsers)
-
 
     const logoutHandler = () => {
         localStorage.setItem("user", null);
@@ -46,10 +42,10 @@ export default function Topbar() {
     const searchUserHandler = () => {
         setSearchUsername(searchUser.current.value)
         const all = allUsers.filter(u => {
-            return u.username.includes(searchUsername);
+
+            return u.username.toLowerCase().includes(searchUsername.toLowerCase());
         })
         setAllSearchUser(all)
-        console.log(searchUsername)
     }
 
     return (
