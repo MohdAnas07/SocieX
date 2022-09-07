@@ -99,3 +99,68 @@
     cursor: pointer;
     object-fit: cover;
 }
+
+.searchUserContainer{
+    position: absolute;
+    left: 0;
+    right: 102px;
+    top: 60px;
+    width: 500px;
+    max-height: 85vh;
+    background-color: rgb(243, 243, 243);
+    z-index: 2;
+    margin: 0 auto;
+    overflow-y: scroll;
+    /* border:2px solid; */
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+}
+
+.searchUserWrapper{
+    padding: 20px;
+}
+
+.searchUserBox{
+    /* border: 1px solid; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color:  #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.userInfo{
+    display: flex;
+    align-items: center;
+}
+
+.searchUserImg{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 20px;
+    object-fit: cover;
+}
+
+.searchUserName{
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
+.searchUserFollowButton{
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    justify-content: space-around;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 16px;
+    background-color: var(--primary-color);
+    color: #fff;
+    outline: none;
+}

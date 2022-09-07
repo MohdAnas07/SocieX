@@ -18,14 +18,12 @@ const Post = ({ post }) => {
         setIsLiked(post.likes.includes(currentUser._id))
     }, [currentUser._id, post.likes])
 
-
     useEffect(() => {
         const fetchUser = async () => {
             const res = await axios.get(`http://localhost:5000/api/users?userId=${post.userId}`)
             setUser(res.data)
         }
         fetchUser()
-
     }, [post.userId])
 
     const likeHandler = () => {
@@ -36,10 +34,24 @@ const Post = ({ post }) => {
         } catch (error) {
             console.warn(error)
         }
-
         setLike(isLiked ? like - 1 : like + 1)
         setIsLiked(p => !p)
     }
+
+    const deletePostHandler = async () => {
+        // try {
+        //     await axios.delete(`http://localhost:5000/api/posts/${post._id}`,
+        //         { userId: currentUser._id })
+
+        // } catch (error) {
+        //     console.warn(error)
+        // }
+
+        // window.location.reload();
+        // console.log("post Id", post._id)
+        // console.log("currentUser Id", currentUser._id)
+    }
+
 
     return (
         <div className="post">
@@ -52,7 +64,7 @@ const Post = ({ post }) => {
                         <span className="postUsername">{user.username} </span>
                         <span className="postData">{format(post.createdAt)}</span>
                     </div>
-                    <div className="postTopRight">
+                    <div className="postTopRight" onClick={deletePostHandler} >
                         <MoreVertIcon />
                     </div>
                 </div>

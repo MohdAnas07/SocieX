@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const { route } = require('./posts');
 
 
 // UPDATE USER======================================================>>
@@ -72,6 +73,24 @@ router.get('/', async (req, res) => {
     }
 })
 
+
+// GET ALL USERS ============================
+router.get('/all', async (req, res) => {
+    try {
+        const allUser = await User.find({})
+        if (allUser) {
+            res.status(200).json(allUser)
+        } else {
+            res.json('no user found')
+        }
+    } catch (error) {
+        res.status(500).json('something went wrong')
+    }
+})
+
+
+
+// GET USER FRIENDS =========================
 router.get('/friends/:userId', async (req, res) => {
     try {
         const user = await User.findById(req.params.userId);

@@ -11,6 +11,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import WorkIcon from '@mui/icons-material/Work';
 import CloseFriend from '../closeFriend/CloseFriend';
 import { Users } from '../../dummyData';
+import { Link } from 'react-router-dom';
 
 export const Sidebar = () => {
 
@@ -19,10 +20,12 @@ export const Sidebar = () => {
         <div className='sidebar'>
             <div className="sidebarWrapper">
                 <ul className="sidebarList">
-                    <li className="sidebarListItem">
-                        <FeedIcon className='sidebarIcon' />
-                        <span className='sidebarListItemText'>Feed</span>
-                    </li>
+                    <Link style={{ 'color': 'black' }} to='/'>
+                        <li className="sidebarListItem">
+                            <FeedIcon className='sidebarIcon' />
+                            <span className='sidebarListItemText'>Feed</span>
+                        </li>
+                    </Link>
                     <li className="sidebarListItem">
                         <ChatIcon className='sidebarIcon' />
                         <span className='sidebarListItemText'>Chats</span>
