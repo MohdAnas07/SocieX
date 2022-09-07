@@ -100,7 +100,7 @@ export default function Topbar() {
                                     }
                                 </div>
                             ))
-                                : <span style={{ 'textAlign': 'center' }}>No User Found</span>
+                                : <span style={{ 'textAlign': 'center', 'fontSize': '20px' }}>No User Found</span>
                         }
                     </div>
                 </div>
