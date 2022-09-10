@@ -89,7 +89,6 @@ router.get('/all', async (req, res) => {
 })
 
 
-
 // GET USER FRIENDS =========================
 router.get('/friends/:userId', async (req, res) => {
     try {

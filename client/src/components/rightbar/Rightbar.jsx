@@ -22,7 +22,6 @@ export default function Rightbar({ user }) {
         setFollowed(currentUser.followings.includes(user?._id))
     }, [currentUser, user?._id])
 
-
     useEffect(() => {
         const getFriends = async () => {
             const res = await axios.get(`http://localhost:5000/api/users/friends/${user?._id}`);
@@ -31,6 +30,7 @@ export default function Rightbar({ user }) {
         }
         getFriends()
     }, [user])
+
 
     const followHandler = async () => {
         try {
@@ -49,13 +49,15 @@ export default function Rightbar({ user }) {
         setFollowed(p => !p)
     }
 
+
+
     const HomeRightbar = () => {
         return (
             <>
                 <div className="birthdayContainer">
                     <img src="./assets/gift.png" alt="" className="birthdayImg" />
                     <span className="birthdayText">
-                        <b>Mohd Anas</b> and <b>3 other friends</b> have a birthday today
+                        <b>{currentUser.username}</b> and <b>3 other friends</b> have a birthday today
                     </span>
                 </div>
                 <img src="/assets/ad.png" alt="ad img" className="rightbarAd" />

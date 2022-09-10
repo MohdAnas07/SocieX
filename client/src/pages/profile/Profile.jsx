@@ -6,12 +6,37 @@ import { Sidebar } from '../../components/sidebar/Sidebar'
 import Topbar from '../../components/topbar/Topbar'
 import axios from 'axios'
 import { useParams } from 'react-router'
+import { useContext } from 'react'
+import { AuthContext } from '../../context/AuthContext'
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+
+import {
+    TextField,
+    Box,
+    Radio,
+    RadioGroup,
+    FormControlLabel,
+    FormControl,
+    FormLabel,
+    Button
+} from '@mui/material';
+import { useRef } from 'react'
 
 const Profile = () => {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-
     const [user, setUser] = useState({});
-    const username = useParams().username
+    const username = useParams().username;
+    const { user: currentUser } = useContext(AuthContext);
+    const [isEdit, setIsEdit] = useState(false)
+
+    const country = useRef()
+    const city = useRef()
+    const DOB = useRef()
+    const gender = useRef()
+    const relationship = useRef()
+    const description = useRef()
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -23,6 +48,28 @@ const Profile = () => {
 
     }, [username])
 
+    const editHandler = (e) => {
+        e.preventDefault()
+        console.log(country, DOB, relationship)
+        // try {
+        //     axios.put(`http://localhost:5000/api/users/${currentUser._id}`,
+        //         {
+        //             "userId": currentUser._id,
+        //             "desc": "live your life live your dreame, i ment it ",
+        //             "city": "India",
+        //             "from": "Bazpur",
+        //             'birthday': '12 sep 2000',
+        //             'relationship': '1',
+        //         }
+        //     )
+
+        //     window.location.reload()
+        // } catch (error) {
+        //     console.warn(error)
+        // }
+    }
+
+
     return (
         <>
             <Topbar />
@@ -32,22 +79,76 @@ const Profile = () => {
                     <div className="profileRightTop">
                         <div className="profileCover">
                             <img src={user.coverPicture ? PF + user.coverPicture : PF + '/noCover2.jpg'} alt="" className="profileCoverImg" draggable='false' />
-
                             <img src={user.userProfile ? PF + user.userProfile : PF + '/noAvatar.jpg'} alt="" className="profileUserImg" draggable='false' />
                         </div>
                         <div className="profileInfo">
                             <h4 className="profileInfoName">{user.username}</h4>
                             <span className="profileInfoDesc">{user.desc}</span>
+                            <button className="editButton" onClick={() => setIsEdit(true)}><BorderColorIcon style={{ 'fontSize': '15px', 'marginRight': '2px' }} />Edit Profile</button>
                         </div>
                     </div>
+
+                    {isEdit &&
+                        <form className="editInfo" onSubmit={(e) => editHandler(e)}>
+                            <div className="editInfoWrapper  ui form">
+                                <h4 className='editInfoHeadline'>Edit Personal Info</h4>
+                                <Box
+                                    component="form"
+                                    noValidate
+                                    autoComplete="off"
+                                    style={{ 'marginBottom': '10px' }}
+                                >
+                                    <TextField ref={country} id="outlined-basic" label="Country Name" variant="outlined" style={{ 'marginRight': '10px' }} />
+
+                                    <TextField ref={city} id="outlined-basic" label="City Name" variant="outlined" style={{ 'marginRight': '10px' }} />
+
+                                    <TextField ref={DOB} id="outlined-basic" label="DOB: DD-MM-YYYY " variant="outlined" />
+                                </Box>
+
+                                <FormControl style={{ 'display': 'block' }}>
+                                    <FormLabel
+                                        id="demo-row-radio-buttons-group-label">Gender</FormLabel>
+                                    <RadioGroup
+                                        row
+                                        aria-labelledby="demo-row-radio-buttons-group-label"
+                                        name="row-radio-buttons-group"
+                                    >
+                                        <FormControlLabel ref={gender} value="female" control={<Radio />} label="Female" />
+                                        <FormControlLabel ref={gender} value="male" control={<Radio />} label="Male" />
+                                        <FormControlLabel ref={gender} value="other" control={<Radio />} label="Other" />
+                                    </RadioGroup>
+                                </FormControl>
+                                <FormControl style={{ 'display': 'block' }}>
+                                    <FormLabel id="demo-row-radio-buttons-group-label">Relationship Status</FormLabel>
+                                    <RadioGroup
+                                        row
+                                        aria-labelledby="demo-row-radio-buttons-group-label"
+                                        name="row-radio-buttons-group"
+                                    >
+                                        <FormControlLabel ref={relationship} value="1" control={<Radio />} label="Single" />
+                                        <FormControlLabel ref={relationship} value="2" control={<Radio />} label="Married" />
+                                        <FormControlLabel ref={relationship} value="3" control={<Radio />} label="Complex" />
+                                    </RadioGroup>
+                                </FormControl>
+                                <TextField ref={description} style={{ 'margin': '10px 0' }} fullWidth label="Bio Description" id="fullWidth" />
+
+                                <Button type='submit' className='editSubmitButton' variant="contained">Submit</Button>
+
+                                <HighlightOffIcon style={{ "fontSize": "50px" }} className='cancelButton' onClick={() => setIsEdit(false)} />
+                            </div>
+
+                        </form>}
+
                     <div className="profileRightBottom">
                         <Feed username={username} />
                         <Rightbar user={user} />
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }
 
 export default Profile
+
+//how to use useRef hook in radio button input box?

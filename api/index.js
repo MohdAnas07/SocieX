@@ -16,8 +16,8 @@ const PORT = process.env.PORT || 5000
 
 dotenv.config()
 
-
-// local mongo compass db connection ==============>>
+//local mongo compass db connection ==>
+require('./db/config')
 
 //mongo atlas db connection ====================>>
 
@@ -29,9 +29,6 @@ dotenv.config()
 //         console.log('database connected successfully ');
 //     }
 // )
-
-
-
 
 
 app.use("/images", express.static(path.join(__dirname, "public/images")));
@@ -76,5 +73,3 @@ app.use("/api/posts", postRoute);
 app.listen(5000, () => {
     console.log('server is listening at port 5000')
 })
-
-

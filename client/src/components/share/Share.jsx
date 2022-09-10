@@ -19,7 +19,6 @@ const Share = () => {
 
     const shareFormHandler = async (e) => {
         e.preventDefault()
-
         const newPost = {
             userId: user._id,
             desc: desc.current.value
@@ -52,8 +51,8 @@ const Share = () => {
             console.warn(error);
         }
 
-        console.log(desc.current.value);
-        console.log(file)
+        // console.log(desc.current.value);
+        // console.log(file)
     }
 
     return (

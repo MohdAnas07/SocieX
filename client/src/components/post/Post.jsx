@@ -30,7 +30,6 @@ const Post = ({ post }) => {
         try {
             axios.put(`http://localhost:5000/api/posts/${post._id}/like`,
                 { userId: currentUser._id })
-
         } catch (error) {
             console.warn(error)
         }
@@ -38,16 +37,14 @@ const Post = ({ post }) => {
         setIsLiked(p => !p)
     }
 
-    const deletePostHandler = async () => {
+    const deletePostHandler = () => {
         // try {
-        //     await axios.delete(`http://localhost:5000/api/posts/${post._id}`,
+        //     axios.delete(`http://localhost:5000/api/posts/${post?._id}`,
         //         { userId: currentUser._id })
-
+        //      window.location.reload();
         // } catch (error) {
         //     console.warn(error)
         // }
-
-        // window.location.reload();
         // console.log("post Id", post._id)
         // console.log("currentUser Id", currentUser._id)
     }
