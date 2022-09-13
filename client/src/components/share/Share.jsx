@@ -71,7 +71,6 @@ const Share = () => {
                         <div className="shareImgContainer">
                             <img src={URL.createObjectURL(file)} className='shareImg' alt="" />
                             <HighlightOffIcon style={{ "fontSize": "50px" }} className='cancelButton' onClick={() => setFile(null)} />
-
                         </div>
                     )
                 }

@@ -22,7 +22,6 @@ import {
     FormLabel,
     Button
 } from '@mui/material';
-import { useRef } from 'react'
 
 const Profile = () => {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -31,12 +30,12 @@ const Profile = () => {
     const { user: currentUser } = useContext(AuthContext);
     const [isEdit, setIsEdit] = useState(false)
 
-    const country = useRef()
-    const city = useRef()
-    const DOB = useRef()
-    const gender = useRef()
-    const relationship = useRef()
-    const description = useRef()
+    const [country, setCountry] = useState()
+    const [city, setCity] = useState()
+    const [DOB, setDOB] = useState()
+    // const [gender, setGender] = useState()
+    const [relationship, setRelationship] = useState()
+    const [description, setDescription] = useState()
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -50,23 +49,22 @@ const Profile = () => {
 
     const editHandler = (e) => {
         e.preventDefault()
-        console.log(country, DOB, relationship)
-        // try {
-        //     axios.put(`http://localhost:5000/api/users/${currentUser._id}`,
-        //         {
-        //             "userId": currentUser._id,
-        //             "desc": "live your life live your dreame, i ment it ",
-        //             "city": "India",
-        //             "from": "Bazpur",
-        //             'birthday': '12 sep 2000',
-        //             'relationship': '1',
-        //         }
-        //     )
-
-        //     window.location.reload()
-        // } catch (error) {
-        //     console.warn(error)
-        // }
+        console.log(country, city, DOB)
+        try {
+            axios.put(`http://localhost:5000/api/users/${currentUser._id}`,
+                {
+                    "userId": currentUser._id,
+                    "desc": description || '',
+                    "city": country || '',
+                    "from": city || '',
+                    'birthday': DOB || '',
+                    // 'relationship': relationship || '1',
+                }
+            )
+            window.location.reload()
+        } catch (error) {
+            console.warn(error)
+        }
     }
 
 
@@ -87,7 +85,6 @@ const Profile = () => {
                             <button className="editButton" onClick={() => setIsEdit(true)}><BorderColorIcon style={{ 'fontSize': '15px', 'marginRight': '2px' }} />Edit Profile</button>
                         </div>
                     </div>
-
                     {isEdit &&
                         <form className="editInfo" onSubmit={(e) => editHandler(e)}>
                             <div className="editInfoWrapper  ui form">
@@ -98,11 +95,11 @@ const Profile = () => {
                                     autoComplete="off"
                                     style={{ 'marginBottom': '10px' }}
                                 >
-                                    <TextField ref={country} id="outlined-basic" label="Country Name" variant="outlined" style={{ 'marginRight': '10px' }} />
+                                    <TextField value={country} onChange={(e) => setCountry(e.target.value)} id="outlined-basic" label="Country Name" variant="outlined" style={{ 'marginRight': '10px' }} />
 
-                                    <TextField ref={city} id="outlined-basic" label="City Name" variant="outlined" style={{ 'marginRight': '10px' }} />
+                                    <TextField value={city} onChange={(e) => setCity(e.target.value)} id="outlined-basic" label="City Name" variant="outlined" style={{ 'marginRight': '10px' }} />
 
-                                    <TextField ref={DOB} id="outlined-basic" label="DOB: DD-MM-YYYY " variant="outlined" />
+                                    <TextField value={DOB} onChange={(e) => setDOB(e.target.value)} id="outlined-basic" label="DOB: DD-MM-YYYY " variant="outlined" />
                                 </Box>
 
                                 <FormControl style={{ 'display': 'block' }}>
@@ -113,9 +110,9 @@ const Profile = () => {
                                         aria-labelledby="demo-row-radio-buttons-group-label"
                                         name="row-radio-buttons-group"
                                     >
-                                        <FormControlLabel ref={gender} value="female" control={<Radio />} label="Female" />
-                                        <FormControlLabel ref={gender} value="male" control={<Radio />} label="Male" />
-                                        <FormControlLabel ref={gender} value="other" control={<Radio />} label="Other" />
+                                        <FormControlLabel value="female" control={<Radio />} label="Female" />
+                                        <FormControlLabel value="male" control={<Radio />} label="Male" />
+                                        <FormControlLabel value="other" control={<Radio />} label="Other" />
                                     </RadioGroup>
                                 </FormControl>
                                 <FormControl style={{ 'display': 'block' }}>
@@ -125,12 +122,12 @@ const Profile = () => {
                                         aria-labelledby="demo-row-radio-buttons-group-label"
                                         name="row-radio-buttons-group"
                                     >
-                                        <FormControlLabel ref={relationship} value="1" control={<Radio />} label="Single" />
-                                        <FormControlLabel ref={relationship} value="2" control={<Radio />} label="Married" />
-                                        <FormControlLabel ref={relationship} value="3" control={<Radio />} label="Complex" />
+                                        <FormControlLabel value="1" control={<Radio />} label="Single" />
+                                        <FormControlLabel value="2" control={<Radio />} label="Married" />
+                                        <FormControlLabel value="3" control={<Radio />} label="Complex" />
                                     </RadioGroup>
                                 </FormControl>
-                                <TextField ref={description} style={{ 'margin': '10px 0' }} fullWidth label="Bio Description" id="fullWidth" />
+                                <TextField value={description} onChange={(e) => setDescription(e.target.value)} style={{ 'margin': '10px 0' }} fullWidth label="Bio Description" id="fullWidth" />
 
                                 <Button type='submit' className='editSubmitButton' variant="contained">Submit</Button>
 
@@ -151,4 +148,4 @@ const Profile = () => {
 
 export default Profile
 
-//how to use useRef hook in radio button input box?
+//how to use useState hook in radio button input box?
