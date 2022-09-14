@@ -9,20 +9,11 @@ import { useParams } from 'react-router'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import FilterIcon from '@mui/icons-material/Filter';
+
+import EditInfoForm from './EditInfoForm'
 
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-
-import {
-    TextField,
-    Box,
-    Radio,
-    RadioGroup,
-    FormControlLabel,
-    FormControl,
-    FormLabel,
-    Button,
-    Input
-} from '@mui/material';
 import { useRef } from 'react'
 
 const Profile = () => {
@@ -31,16 +22,12 @@ const Profile = () => {
     const username = useParams().username;
     const { user: currentUser } = useContext(AuthContext);
     const [isEdit, setIsEdit] = useState(false)
+    const coverRef = useRef(null)
+    const profileRef = useRef(null)
+    const [coverImg, setCoverImg] = useState(null)
+    const [profileImg, setProfileImg] = useState(null)
 
-    const [country, setCountry] = useState()
-    const [city, setCity] = useState()
-    const [DOB, setDOB] = useState()
-    const [gender, setGender] = useState()
-    const [relationship, setRelationship] = useState()
-    const [description, setDescription] = useState()
-    const [file, setFile] = useState(null)
-
-    const fileRef = useRef();
+    // const fileRef = useRef();
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -51,30 +38,11 @@ const Profile = () => {
 
     }, [username])
 
-    const editHandler = (e) => {
-        e.preventDefault()
-        console.log(country, city, DOB)
-        try {
-            axios.put(`http://localhost:5000/api/users/${currentUser._id}`,
-                {
-                    "userId": currentUser._id,
-                    "desc": description || user.desc,
-                    "city": country || user.city,
-                    "from": city || user.from,
-                    "gender": gender || user.gender,
-                    'birthday': DOB || user.birthday,
-                    'relationship': relationship || user.relationship || '-',
-                }
-            )
-            window.location.reload()
-        } catch (error) {
-            console.warn(error)
-        }
-    }
-    const uploadFileHandler = (e) => {
-        setFile(e.target.files[0])
-        console.log(file);
-    }
+
+    // const uploadFileHandler = (e) => {
+    //     setFile(e.target.files[0])
+    //     console.log(file);
+    // }
 
     return (
         <>
@@ -85,67 +53,49 @@ const Profile = () => {
                     <div className="profileRightTop">
                         <div className="profileCover">
                             <img src={user.coverPicture ? PF + user.coverPicture : PF + '/noCover2.jpg'} alt="" className="profileCoverImg" draggable='false' />
+                            <FilterIcon title='edit cover picture' className='coverImgEdit' onClick={() => coverRef.current.click()} />
+                            <input ref={coverRef} type="file" hidden onChange={(e) => setCoverImg(e.target.files[0])} />
+
+                            {coverImg && <div className="previewImg">
+                                <div className="previewContainer">
+                                    <img src={URL.createObjectURL(coverImg)} className='previewProfileImg' alt="" />
+                                    <div className="buttons">
+                                        <button className='uploadButton' >Upload</button>
+                                        <button className='deleteButton' onClick={() => setCoverImg(null)} > Cancel </button>
+                                    </div>
+                                </div>
+                            </div>}
+
+
                             <img src={user.userProfile ? PF + user.userProfile : PF + '/noAvatar.jpg'} alt="" className="profileUserImg" draggable='false' />
+                            <FilterIcon name='file' className='profileImgEdit' onClick={() => {
+                                profileRef.current.click()
+                            }} />
+
+                            <input ref={profileRef} type="file" hidden onChange={(e) => setProfileImg(e.target.files[0])} />
+                            {profileImg && <div className="previewImg">
+                                <div className="previewContainer">
+                                    <img src={URL.createObjectURL(profileImg)} className='previewProfileImg' alt="" />
+                                    <div className="buttons">
+                                        <button className='uploadButton' >Upload</button>
+                                        <button className='deleteButton' onClick={() => setProfileImg(null)} > Cancel </button>
+                                    </div>
+                                </div>
+                            </div>}
+
                         </div>
+
                         <div className="profileInfo">
                             <h4 className="profileInfoName">{user.username}</h4>
                             <span className="profileInfoDesc">{user.desc}</span>
                             {user.username === currentUser.username && <button className="editButton" onClick={() => setIsEdit(true)}><BorderColorIcon style={{ 'fontSize': '15px', 'marginRight': '2px' }} />Edit Profile</button>}
                         </div>
                     </div>
-                    {isEdit &&
-                        <form className="editInfo" onSubmit={(e) => editHandler(e)}>
-                            <div className="editInfoWrapper  ui form">
-                                <h4 className='editInfoHeadline'>Edit Personal Info</h4>
-                                <Box
-                                    component="form"
-                                    noValidate
-                                    autoComplete="off"
-                                    style={{ 'marginBottom': '10px' }}
-                                >
-                                    <TextField value={country} onChange={(e) => setCountry(e.target.value)} id="outlined-basic" label="Country Name" variant="outlined" style={{ 'marginRight': '10px' }} />
 
-                                    <TextField value={city} onChange={(e) => setCity(e.target.value)} id="outlined-basic" label="City Name" variant="outlined" style={{ 'marginRight': '10px' }} />
-
-                                    <TextField value={DOB} onChange={(e) => setDOB(e.target.value)} id="outlined-basic" label="DOB: DD-MM-YYYY " variant="outlined" />
-                                </Box>
-
-                                <FormControl style={{ 'display': 'block' }}>
-                                    <FormLabel
-                                        id="demo-row-radio-buttons-group-label">Gender</FormLabel>
-                                    <RadioGroup
-                                        row
-                                        aria-labelledby="demo-row-radio-buttons-group-label"
-                                        name="row-radio-buttons-group"
-                                    >
-                                        <FormControlLabel value="female" onClick={(e) => setGender(e.target.value)} control={<Radio />} label="Female" />
-                                        <FormControlLabel value="male" onClick={(e) => setGender(e.target.value)} control={<Radio />} label="Male" />
-                                        <FormControlLabel value="other" onClick={(e) => setGender(e.target.value)} control={<Radio />} label="Other" />
-                                    </RadioGroup>
-                                </FormControl>
-
-                                <FormControl style={{ 'display': 'block' }}>
-                                    <FormLabel id="demo-row-radio-buttons-group-label">Relationship Status</FormLabel>
-                                    <RadioGroup
-                                        row
-                                        aria-labelledby="demo-row-radio-buttons-group-label"
-                                        name="row-radio-buttons-group"
-                                    >
-                                        <FormControlLabel value="1" onClick={(e) => setRelationship(e.target.value)} control={<Radio />} label="Single" />
-                                        <FormControlLabel value="2" onClick={(e) => setRelationship(e.target.value)} control={<Radio />} label="Married" />
-                                        <FormControlLabel value="3" onClick={(e) => setRelationship(e.target.value)} control={<Radio />} label="Complex" />
-                                    </RadioGroup>
-                                </FormControl>
-
-                                <TextField value={description} onChange={(e) => setDescription(e.target.value)} style={{ 'margin': '10px 0', 'display': 'block' }} fullWidth label="Bio Description" id="fullWidth" />
-
-                                <Button type='submit' className='editSubmitButton' variant="contained">Submit</Button>
-
-                                <HighlightOffIcon style={{ "fontSize": "50px" }} className='cancelButton' onClick={() => setIsEdit(false)} />
-                            </div>
-
-
-                        </form>}
+                    {/* edit info form page */}
+                    {
+                        isEdit && <EditInfoForm user={user} setIsEdit={setIsEdit} />
+                    }
 
                     <div className="profileRightBottom">
                         <Feed username={username} />

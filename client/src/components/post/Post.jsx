@@ -49,7 +49,6 @@ const Post = ({ post }) => {
         // console.log("currentUser Id", currentUser._id)
     }
 
-
     return (
         <div className="post">
             <div className="postWrapper">
