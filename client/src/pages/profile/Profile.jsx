@@ -20,8 +20,10 @@ import {
     FormControlLabel,
     FormControl,
     FormLabel,
-    Button
+    Button,
+    Input
 } from '@mui/material';
+import { useRef } from 'react'
 
 const Profile = () => {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -33,15 +35,17 @@ const Profile = () => {
     const [country, setCountry] = useState()
     const [city, setCity] = useState()
     const [DOB, setDOB] = useState()
-    // const [gender, setGender] = useState()
+    const [gender, setGender] = useState()
     const [relationship, setRelationship] = useState()
     const [description, setDescription] = useState()
+    const [file, setFile] = useState(null)
+
+    const fileRef = useRef();
 
     useEffect(() => {
         const fetchUser = async () => {
             const res = await axios.get(`http://localhost:5000/api/users?username=${username}`)
             setUser(res.data)
-            // console.log(res.data);
         }
         fetchUser()
 
@@ -54,19 +58,22 @@ const Profile = () => {
             axios.put(`http://localhost:5000/api/users/${currentUser._id}`,
                 {
                     "userId": currentUser._id,
-                    "desc": description || '',
-                    "city": country || '',
-                    "from": city || '',
-                    'birthday': DOB || '',
-                    // 'relationship': relationship || '1',
+                    "desc": description || user.desc,
+                    "city": country || user.city,
+                    "from": city || user.from,
+                    'birthday': DOB || user.birthday,
+                    'relationship': relationship || user.relationship || '-',
                 }
             )
-            window.location.reload()
+            // window.location.reload()
         } catch (error) {
             console.warn(error)
         }
     }
-
+    const uploadFileHandler = (e) => {
+        setFile(e.target.files[0])
+        console.log(file);
+    }
 
     return (
         <>
@@ -82,7 +89,7 @@ const Profile = () => {
                         <div className="profileInfo">
                             <h4 className="profileInfoName">{user.username}</h4>
                             <span className="profileInfoDesc">{user.desc}</span>
-                            <button className="editButton" onClick={() => setIsEdit(true)}><BorderColorIcon style={{ 'fontSize': '15px', 'marginRight': '2px' }} />Edit Profile</button>
+                            {user.username === currentUser.username && <button className="editButton" onClick={() => setIsEdit(true)}><BorderColorIcon style={{ 'fontSize': '15px', 'marginRight': '2px' }} />Edit Profile</button>}
                         </div>
                     </div>
                     {isEdit &&
@@ -110,11 +117,12 @@ const Profile = () => {
                                         aria-labelledby="demo-row-radio-buttons-group-label"
                                         name="row-radio-buttons-group"
                                     >
-                                        <FormControlLabel value="female" control={<Radio />} label="Female" />
-                                        <FormControlLabel value="male" control={<Radio />} label="Male" />
-                                        <FormControlLabel value="other" control={<Radio />} label="Other" />
+                                        <FormControlLabel value="female" onClick={(e) => setGender(e.target.value)} control={<Radio />} label="Female" />
+                                        <FormControlLabel value="male" onClick={(e) => setGender(e.target.value)} control={<Radio />} label="Male" />
+                                        <FormControlLabel value="other" onClick={(e) => setGender(e.target.value)} control={<Radio />} label="Other" />
                                     </RadioGroup>
                                 </FormControl>
+
                                 <FormControl style={{ 'display': 'block' }}>
                                     <FormLabel id="demo-row-radio-buttons-group-label">Relationship Status</FormLabel>
                                     <RadioGroup
@@ -122,17 +130,19 @@ const Profile = () => {
                                         aria-labelledby="demo-row-radio-buttons-group-label"
                                         name="row-radio-buttons-group"
                                     >
-                                        <FormControlLabel value="1" control={<Radio />} label="Single" />
-                                        <FormControlLabel value="2" control={<Radio />} label="Married" />
-                                        <FormControlLabel value="3" control={<Radio />} label="Complex" />
+                                        <FormControlLabel value="1" onClick={(e) => setRelationship(e.target.value)} control={<Radio />} label="Single" />
+                                        <FormControlLabel value="2" onClick={(e) => setRelationship(e.target.value)} control={<Radio />} label="Married" />
+                                        <FormControlLabel value="3" onClick={(e) => setRelationship(e.target.value)} control={<Radio />} label="Complex" />
                                     </RadioGroup>
                                 </FormControl>
-                                <TextField value={description} onChange={(e) => setDescription(e.target.value)} style={{ 'margin': '10px 0' }} fullWidth label="Bio Description" id="fullWidth" />
+
+                                <TextField value={description} onChange={(e) => setDescription(e.target.value)} style={{ 'margin': '10px 0', 'display': 'block' }} fullWidth label="Bio Description" id="fullWidth" />
 
                                 <Button type='submit' className='editSubmitButton' variant="contained">Submit</Button>
 
                                 <HighlightOffIcon style={{ "fontSize": "50px" }} className='cancelButton' onClick={() => setIsEdit(false)} />
                             </div>
+
 
                         </form>}
 
@@ -149,3 +159,7 @@ const Profile = () => {
 export default Profile
 
 //how to use useState hook in radio button input box?
+
+
+//  <input hidden ref={fileRef} type="file" id='file' accept=".png, .jpeg, .jpg, .webp" onChange={(e) => uploadFileHandler(e)} />
+//  <Button className='editSubmitButton' variant="contained" onClick={() => { fileRef.current.click() }}>upload profile picture</Button>

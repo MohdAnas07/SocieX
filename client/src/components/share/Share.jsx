@@ -50,7 +50,6 @@ const Share = () => {
         } catch (error) {
             console.warn(error);
         }
-
         // console.log(desc.current.value);
         // console.log(file)
     }

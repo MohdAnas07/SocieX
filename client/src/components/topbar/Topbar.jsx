@@ -42,7 +42,6 @@ export default function Topbar() {
     const searchUserHandler = () => {
         setSearchUsername(searchUser.current.value)
         const all = allUsers.filter(u => {
-
             return u.username.toLowerCase().includes(searchUsername.toLowerCase());
         })
         setAllSearchUser(all)
@@ -93,7 +92,7 @@ export default function Topbar() {
                                     </div>
                                     {
                                         <Link to={`/profile/${u.username}`}>
-                                            <button className="searchUserFollowButton" >
+                                            <button onClick={() => { setSearchUsername('') }} className="searchUserFollowButton" >
                                                 See Profile
                                             </button>
                                         </Link>
