@@ -44,20 +44,30 @@ const userSchema = mongoose.Schema({
         max: 50,
         default: ""
     },
+    gender: {
+        type: String,
+        default: "-"
+    },
     city: {
         type: String,
         max: 50,
-        default: ""
+        default: "-"
     },
     from: {
         type: String,
         max: 50,
-        default: ""
+        default: "-"
+    },
+    birthday: {
+        type: String,
+        default: "-"
     },
     relationship: {
         type: Number,
-        enum: [1, 2, 3]
-    }
+        enum: [1, 2, 3],
+        default: "-"
+    },
+
 },
     { timestamps: true }
 )

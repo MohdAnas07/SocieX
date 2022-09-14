@@ -61,11 +61,12 @@ const Profile = () => {
                     "desc": description || user.desc,
                     "city": country || user.city,
                     "from": city || user.from,
+                    "gender": gender || user.gender,
                     'birthday': DOB || user.birthday,
                     'relationship': relationship || user.relationship || '-',
                 }
             )
-            // window.location.reload()
+            window.location.reload()
         } catch (error) {
             console.warn(error)
         }

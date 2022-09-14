@@ -95,10 +95,9 @@ export default function Rightbar({ user }) {
                         <span className="rightbarInfoValue">{user.from}</span>
                     </div>
                     <div className="rightbarInfoItem">
-                        <span className="rightbarInfoKey">School: </span>
-                        <span className="rightbarInfoValue">BTKIT, Dwarahat</span>
+                        <span className="rightbarInfoKey">gender: </span>
+                        <span className="rightbarInfoValue">{user.gender}</span>
                     </div>
-
                     <div className="rightbarInfoItem">
                         <span className="rightbarInfoKey">Relationship: </span>
                         <span className="rightbarInfoValue">{relation[user.relationship]}</span>
@@ -106,7 +105,7 @@ export default function Rightbar({ user }) {
 
                     <div className="rightbarInfoItem">
                         <span className="rightbarInfoKey">Birthday: </span>
-                        <span className="rightbarInfoValue">12 sep 2000</span>
+                        <span className="rightbarInfoValue">{user.birthday} </span>
                     </div>
                 </div>
                 <h4 className="rightbarProfileTitle"> User Friends</h4>
