@@ -1,5 +1,5 @@
 .messenger{
-    height: calc( 100vh - 60px );
+    height: calc( 100vh - 60px - 50px );
     display: flex;
 }
 
@@ -34,8 +34,40 @@
 .chatBoxWrapper{
     display: flex;
     flex-direction: column;
+    height: calc( 100vh - 60px - 45px );
 }
 
+.chatBoxInfoBar{
+    height: 45px;
+    background-color: #eee;
+    width: 100%;
+    padding: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chatBoxInfoBarLeft{
+    display: flex;
+    align-items: center;
+}
+
+.chatBoxInfoBarRight{
+    display: flex;
+    align-items: center;
+}
+.chatBoxIcons{
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.chatBoxInfoBarImg{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+}
 
 .chatBoxTop{
     height: 100%;

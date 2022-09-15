@@ -5,6 +5,10 @@ import Message from '../../components/message/Message'
 import Topbar from '../../components/topbar/Topbar'
 import './messenger.css'
 
+import CallIcon from '@mui/icons-material/Call';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+
 function Messenger() {
     return (
         <>
@@ -20,7 +24,20 @@ function Messenger() {
                         <Conversation />
                     </div>
                 </div>
+
                 <div className="chatBox">
+                    <div className="chatBoxInfoBar">
+                        <div className="chatBoxInfoBarLeft">
+                            <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg" alt="" className="chatBoxInfoBarImg" />
+                            <span className="chatBoxInfoBarName">john doe</span>
+                        </div>
+                        <div className="chatBoxInfoBarRight">
+                            <VideocamIcon className='chatBoxIcons' />
+                            <CallIcon className='chatBoxIcons' />
+                            <MoreVertIcon className='chatBoxIcons' />
+
+                        </div>
+                    </div>
                     <div className="chatBoxWrapper">
                         <div className="chatBoxTop">
                             <Message />
@@ -46,6 +63,8 @@ function Messenger() {
                 <div className="chatOnline">
                     <div className="chatOnlineWrapper">
                         <h3>Online Friends</h3>
+                        <ChatOnline />
+                        <ChatOnline />
                         <ChatOnline />
                         <ChatOnline />
                         <ChatOnline />
