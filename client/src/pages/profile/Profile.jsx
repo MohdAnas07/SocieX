@@ -38,11 +38,20 @@ const Profile = () => {
 
     }, [username])
 
-
-    // const uploadFileHandler = (e) => {
-    //     setFile(e.target.files[0])
-    //     console.log(file);
-    // }
+    const uploadFileHandle = () => {
+        console.log(profileImg, coverImg)
+        try {
+            axios.put(`http://localhost:5000/api/users/${currentUser._id}`,
+                {
+                    userProfile: JSON.stringify(profileImg) || user.userProfile,
+                    coverProfile: JSON.stringify(coverImg) || user.coverProfile
+                }
+            )
+            window.location.reload()
+        } catch (error) {
+            console.warn(error)
+        }
+    }
 
     return (
         <>
@@ -52,7 +61,7 @@ const Profile = () => {
                 <div className="profileRight">
                     <div className="profileRightTop">
                         <div className="profileCover">
-                            <img src={user.coverPicture ? PF + user.coverPicture : PF + '/noCover2.jpg'} alt="" className="profileCoverImg" draggable='false' />
+                            <img src={user.coverProfile ? URL.createObjectURL(user.coverProfile) : PF + '/noCover2.jpg'} alt="" className="profileCoverImg" draggable='false' />
                             <FilterIcon title='edit cover picture' className='coverImgEdit' onClick={() => coverRef.current.click()} />
                             <input ref={coverRef} type="file" hidden onChange={(e) => setCoverImg(e.target.files[0])} />
 
@@ -60,24 +69,26 @@ const Profile = () => {
                                 <div className="previewContainer">
                                     <img src={URL.createObjectURL(coverImg)} className='previewProfileImg' alt="" />
                                     <div className="buttons">
-                                        <button className='uploadButton' >Upload</button>
+                                        <button className='uploadButton' onClick={uploadFileHandle} >Upload</button>
                                         <button className='deleteButton' onClick={() => setCoverImg(null)} > Cancel </button>
                                     </div>
                                 </div>
                             </div>}
 
+                            <img src={user.userProfile ? URL.createObjectURL(user.userProfile) : PF + '/noAvatar.jpg'} alt="" className="profileUserImg" draggable='false' />
 
-                            <img src={user.userProfile ? PF + user.userProfile : PF + '/noAvatar.jpg'} alt="" className="profileUserImg" draggable='false' />
                             <FilterIcon name='file' className='profileImgEdit' onClick={() => {
                                 profileRef.current.click()
                             }} />
 
+
                             <input ref={profileRef} type="file" hidden onChange={(e) => setProfileImg(e.target.files[0])} />
+
                             {profileImg && <div className="previewImg">
                                 <div className="previewContainer">
                                     <img src={URL.createObjectURL(profileImg)} className='previewProfileImg' alt="" />
                                     <div className="buttons">
-                                        <button className='uploadButton' >Upload</button>
+                                        <button className='uploadButton' onClick={uploadFileHandle} >Upload</button>
                                         <button className='deleteButton' onClick={() => setProfileImg(null)} > Cancel </button>
                                     </div>
                                 </div>

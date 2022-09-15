@@ -119,9 +119,7 @@ export default function Rightbar({ user }) {
                                     <img src={friend.userProfile ? PF + friend.userProfile : PF + '/noAvatar.webp'} alt="" className="rightbarFollowingImg" />
                                     <span className="rightbarFollowingName">{friend.username}</span>
                                 </div>
-
                             </Link>
-
                         )
                         )
                     }

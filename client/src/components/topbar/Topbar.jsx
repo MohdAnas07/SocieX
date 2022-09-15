@@ -68,10 +68,12 @@ export default function Topbar() {
                         <PersonIcon />
                         <span className="topbarIconBadge">1</span>
                     </div>
-                    <div className="topbarIconItem">
-                        <ChatIcon />
-                        <span className="topbarIconBadge">1</span>
-                    </div>
+                    <Link to='/messenger' style={{ 'color': '#fff' }}>
+                        <div className="topbarIconItem">
+                            <ChatIcon />
+                            <span className="topbarIconBadge">2</span>
+                        </div>
+                    </Link>
                     <div className="topbarIconItem">
                         <NotificationsIcon />
                         <span className="topbarIconBadge">1</span>
