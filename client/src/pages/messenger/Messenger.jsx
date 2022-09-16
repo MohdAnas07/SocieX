@@ -31,13 +31,14 @@ function Messenger() {
                             <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg" alt="" className="chatBoxInfoBarImg" />
                             <span className="chatBoxInfoBarName">john doe</span>
                         </div>
+
                         <div className="chatBoxInfoBarRight">
                             <VideocamIcon className='chatBoxIcons' />
                             <CallIcon className='chatBoxIcons' />
                             <MoreVertIcon className='chatBoxIcons' />
-
                         </div>
                     </div>
+
                     <div className="chatBoxWrapper">
                         <div className="chatBoxTop">
                             <Message />

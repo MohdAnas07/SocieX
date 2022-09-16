@@ -1,5 +1,5 @@
 .messenger{
-    height: calc( 100vh - 60px - 50px );
+    height: calc( 100vh - 60px - 45px );
     display: flex;
 }
 
@@ -21,6 +21,7 @@
     flex:6;
     border-left :1px solid;
     border-right :1px solid;
+    height: 100%;
 }
 .chatOnline{
     flex:3
@@ -34,7 +35,6 @@
 .chatBoxWrapper{
     display: flex;
     flex-direction: column;
-    height: calc( 100vh - 60px - 45px );
 }
 
 .chatBoxInfoBar{
@@ -70,7 +70,7 @@
 }
 
 .chatBoxTop{
-    height: 100%;
+    /* height: calc(100vh - 60px - 45px - 64px ); */
     overflow-y: scroll;
     padding-right: 10px;
 }
