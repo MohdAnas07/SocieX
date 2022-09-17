@@ -29,6 +29,7 @@
     background-color: limegreen;
     top: 0;
     right: 0;
+    border:1px solid #fff;
 }
 .chatOnlineFriendName{
     margin-left: 20px;

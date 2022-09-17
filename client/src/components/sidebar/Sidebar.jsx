@@ -20,16 +20,18 @@ export const Sidebar = () => {
         <div className='sidebar'>
             <div className="sidebarWrapper">
                 <ul className="sidebarList">
-                    <Link style={{ 'color': 'black' }} to='/'>
+                    <Link to='/' style={{ 'color': 'black' }}>
                         <li className="sidebarListItem">
                             <FeedIcon className='sidebarIcon' />
                             <span className='sidebarListItemText'>Feed</span>
                         </li>
                     </Link>
-                    <li className="sidebarListItem">
-                        <ChatIcon className='sidebarIcon' />
-                        <span className='sidebarListItemText'>Chats</span>
-                    </li>
+                    <Link to='/messenger' >
+                        <li className="sidebarListItem">
+                            <ChatIcon className='sidebarIcon' />
+                            <span className='sidebarListItemText'>Chats</span>
+                        </li>
+                    </Link>
                     <li className="sidebarListItem">
                         <PlayCircleFilledIcon className='sidebarIcon' />
                         <span className='sidebarListItemText'>Videos</span>

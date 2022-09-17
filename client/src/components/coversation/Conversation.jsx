@@ -1,13 +1,39 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useState } from 'react'
+import { useEffect } from 'react';
 import './conversation.css';
 
 
-function Conversation() {
+function Conversation({ conversation, currentUser }) {
+    const [user, setUser] = useState(null)
+    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
+
+    useEffect(() => {
+        const friendId = conversation.members.find(m => m !== currentUser._id)
+        const getUser = async () => {
+            try {
+                const res = await axios.get(`http://localhost:5000/api/users?userId=${friendId}`);
+                setUser(res.data)
+                console.log(res.data)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getUser();
+    }, [currentUser, conversation])
+
     return (
-        <div className="conversation">
-            <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg" alt="Img" className="conversationImg" />
-            <span className="conversationName">John Doe</span>
-        </div>
+        <>
+            {user &&
+
+                <div div className="conversation" >
+                    <img src={user.userProfile ? user.userProfile : PF + '/noAvatar.webp'} alt="Img" className="conversationImg" />
+                    <span className="conversationName">{user.username}</span>
+                </div>
+            }
+        </>
+
     )
 }
 

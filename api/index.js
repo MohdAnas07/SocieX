@@ -8,16 +8,23 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require("path");
 
-const userRoute = require('./routes/users.js');
-const authRoute = require('./routes/auth.js');
-const postRoute = require('./routes/posts.js');
+// ROUTE MODULE =============>>
+const userRoute = require('./routes/users');
+const authRoute = require('./routes/auth');
+const postRoute = require('./routes/posts');
+const conversationRoute = require('./routes/conversations');
+const messageRoute = require('./routes/messages');
+
 
 const PORT = process.env.PORT || 5000
 
 dotenv.config()
 
+
 //local mongo compass db connection ==>
 require('./db/config')
+
+
 
 //mongo atlas db connection ====================>>
 
@@ -63,11 +70,12 @@ app.post('/api/upload', upload.single("file"), (req, res) => {
 })
 
 
-// ROUTEs ============================>>
-
+// BASE ROUTES ============================>>
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoute);
+app.use("/api/conversations", conversationRoute);
+app.use("/api/messages", messageRoute);
 
 
 app.listen(5000, () => {
