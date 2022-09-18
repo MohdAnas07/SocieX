@@ -15,7 +15,7 @@ function Conversation({ conversation, currentUser }) {
             try {
                 const res = await axios.get(`http://localhost:5000/api/users?userId=${friendId}`);
                 setUser(res.data)
-                console.log(res.data)
+                // console.log(res.data)
             } catch (error) {
                 console.log(error);
             }
@@ -24,16 +24,10 @@ function Conversation({ conversation, currentUser }) {
     }, [currentUser, conversation])
 
     return (
-        <>
-            {user &&
-
-                <div div className="conversation" >
-                    <img src={user.userProfile ? user.userProfile : PF + '/noAvatar.webp'} alt="Img" className="conversationImg" />
-                    <span className="conversationName">{user.username}</span>
-                </div>
-            }
-        </>
-
+        <div div className="conversation" >
+            <img src={user?.userProfile ? user.userProfile : PF + '/noAvatar.webp'} alt="Img" className="conversationImg" />
+            <span className="conversationName">{user?.username}</span>
+        </div>
     )
 }
 

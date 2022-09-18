@@ -35,7 +35,8 @@
     display: flex;
     flex-direction: column;
     padding: 0;
-    padding-bottom: 10px
+    padding-bottom: 10px;
+    position: relative;
 }
 
 .chatBoxTop, .chatBoxBottom{
@@ -80,7 +81,7 @@
 }
 
 .chatBoxTop{
-    /* height: calc(100vh - 60px - 45px - 64px ); */
+    height: calc(100vh - 60px - 45px);
     overflow-y: scroll;
     padding-right: 10px;
 }
@@ -112,4 +113,13 @@
     font-weight: 500;
     color: #fff;
 
+}
+
+.noConversation{
+    position: absolute;
+    top: 10px;
+    font-size: 50px;
+    color: rgb(196, 196, 196);
+    padding: 20px;
+    cursor: default;
 }

@@ -14,8 +14,15 @@ import axios from 'axios'
 
 function Messenger() {
 
-    const [conversations, setConversations] = useState([]);
     const { user } = useContext(AuthContext);
+    const [conversations, setConversations] = useState([]);
+    const [currentChat, setCurrentChat] = useState(null);
+    const [messages, setMessages] = useState([]);
+    const [currentChatFriend, setCurrentChatFriend] = useState(null)
+
+    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
+
 
     useEffect(() => {
         const getConversation = async () => {
@@ -26,7 +33,35 @@ function Messenger() {
 
     }, [user._id,])
 
-    // console.log(conversations);
+
+    useEffect(() => {
+        const getMessages = async () => {
+            try {
+                const res = await axios.get(`http://localhost:5000/api/messages/${currentChat?._id}`);
+                setMessages(res.data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getMessages();
+    }, [currentChat])
+
+
+    useEffect(() => {
+        const friendId = currentChat?.members.find(m => m !== user._id)
+        const getUser = async () => {
+            try {
+                const res = await axios.get(`http://localhost:5000/api/users?userId=${friendId}`);
+                setCurrentChatFriend(res.data)
+                console.log(res.data)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getUser();
+    }, [currentChat, user])
+
+    console.log(currentChat);
 
     return (
         <>
@@ -37,7 +72,9 @@ function Messenger() {
                         <input type="text" className="chatMenuInput" placeholder='search for friends' />
                         {
                             conversations.map(c => (
-                                <Conversation key={c._id} conversation={c} currentUser={user} />
+                                <div key={c._id} onClick={() => setCurrentChat(c)}>
+                                    <Conversation conversation={c} currentUser={user} />
+                                </div>
                             ))
                         }
                     </div>
@@ -45,41 +82,39 @@ function Messenger() {
 
                 <div className="chatBox">
 
-
                     <div className="chatBoxWrapper">
+                        {
+                            currentChat ? <>
+                                <div className="chatBoxInfoBar">
+                                    <div className="chatBoxInfoBarLeft">
+                                        <img src={currentChatFriend?.profilePicture ? currentChatFriend.profilePicture : PF + '/noAvatar.webp'} alt="" className="chatBoxInfoBarImg" />
+                                        <span className="chatBoxInfoBarName">{currentChatFriend?.username}</span>
+                                    </div>
 
-                        <div className="chatBoxInfoBar">
-                            <div className="chatBoxInfoBarLeft">
-                                <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg" alt="" className="chatBoxInfoBarImg" />
-                                <span className="chatBoxInfoBarName">john doe</span>
-                            </div>
+                                    <div className="chatBoxInfoBarRight">
+                                        <VideocamIcon className='chatBoxIcons' />
+                                        <CallIcon className='chatBoxIcons' />
+                                        <MoreVertIcon className='chatBoxIcons' />
+                                    </div>
+                                </div>
 
-                            <div className="chatBoxInfoBarRight">
-                                <VideocamIcon className='chatBoxIcons' />
-                                <CallIcon className='chatBoxIcons' />
-                                <MoreVertIcon className='chatBoxIcons' />
-                            </div>
-                        </div>
+                                <div className="chatBoxTop">
+                                    {
+                                        messages.map(m => (
+                                            <Message message={m} own={m.sender === user._id} />
+                                        ))
+                                    }
+                                </div>
 
-                        <div className="chatBoxTop">
-                            <Message />
-                            <Message own={true} />
-                            <Message />
-                            <Message own={true} />
-                            <Message />
-                            <Message own={true} />
-                            <Message />
-                            <Message own={true} />
-                            <Message />
-                            <Message own={true} />
-                            <Message />
-                            <Message own={true} />
-                            <Message />
-                        </div>
-                        <div className="chatBoxBottom">
-                            <input type="text" className="chatMessageInput" placeholder='Type something...' />
-                            <button className="chatSubmitButton">Send</button>
-                        </div>
+                                <div className="chatBoxBottom">
+                                    <input type="text" className="chatMessageInput" placeholder='Type something...' />
+                                    <button className="chatSubmitButton">Send</button>
+                                </div>
+                            </> :
+                                <span className="noConversation">
+                                    Open a Conversation to start a Chat
+                                </span>
+                        }
                     </div>
                 </div>
                 <div className="chatOnline">
