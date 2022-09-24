@@ -11,6 +11,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { AuthContext } from '../../context/AuthContext'
 import { useState } from 'react'
 import axios from 'axios'
+import { useRef } from 'react'
 
 function Messenger() {
 
@@ -18,11 +19,10 @@ function Messenger() {
     const [conversations, setConversations] = useState([]);
     const [currentChat, setCurrentChat] = useState(null);
     const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState("");
+    const scrollRef = useRef();
     const [currentChatFriend, setCurrentChatFriend] = useState(null)
-
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-
-
 
     useEffect(() => {
         const getConversation = async () => {
@@ -61,7 +61,29 @@ function Messenger() {
         getUser();
     }, [currentChat, user])
 
-    console.log(currentChat);
+
+    const messageHandler = async (e) => {
+        e.preventDefault()
+        if (newMessage.length > 0) {
+            const message = {
+                sender: user._id,
+                text: newMessage,
+                conversationId: currentChat._id
+            }
+
+            try {
+                const res = await axios.post("http://localhost:5000/api/messages/", message);
+                setMessages([...messages, res.data])
+                setNewMessage("")
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages])
 
     return (
         <>
@@ -101,14 +123,25 @@ function Messenger() {
                                 <div className="chatBoxTop">
                                     {
                                         messages.map(m => (
-                                            <Message message={m} own={m.sender === user._id} />
+                                            <div key={m._id} ref={scrollRef}>
+                                                <Message message={m} own={m.sender === user._id} />
+                                            </div>
                                         ))
                                     }
                                 </div>
 
                                 <div className="chatBoxBottom">
-                                    <input type="text" className="chatMessageInput" placeholder='Type something...' />
-                                    <button className="chatSubmitButton">Send</button>
+                                    <input type="text"
+                                        className="chatMessageInput"
+                                        placeholder='Type something...'
+                                        onChange={(e) => setNewMessage(e.target.value)}
+                                        value={newMessage}
+                                    />
+                                    <button
+                                        onClick={messageHandler}
+                                        className="chatSubmitButton">
+                                        Send
+                                    </button>
                                 </div>
                             </> :
                                 <span className="noConversation">
