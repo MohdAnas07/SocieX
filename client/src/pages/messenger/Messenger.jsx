@@ -8,10 +8,11 @@ import './messenger.css'
 import CallIcon from '@mui/icons-material/Call';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { AuthContext } from '../../context/AuthContext'
-import { useState } from 'react'
-import axios from 'axios'
-import { useRef } from 'react'
+import { AuthContext } from '../../context/AuthContext';
+import { useState } from 'react';
+import axios from 'axios';
+import { useRef } from 'react';
+import { io } from 'socket.io-client';
 
 function Messenger() {
 
@@ -20,9 +21,42 @@ function Messenger() {
     const [currentChat, setCurrentChat] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
+    const [arrivalMessage, setArrivalMessage] = useState(null);
+    const [onlineUsers, setOnlineUsers] = useState([]);
+    const socket = useRef()
     const scrollRef = useRef();
     const [currentChatFriend, setCurrentChatFriend] = useState(null)
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
+
+    useEffect(() => {
+        socket.current = io("ws://localhost:8900");
+        socket.current.on("getMessage", (data) => {
+            setArrivalMessage({
+                sender: data.senderId,
+                text: data.text,
+                createdAt: Date.now(),
+            });
+        });
+    }, []);
+
+
+    useEffect(() => {
+        arrivalMessage &&
+            currentChat?.members.includes(arrivalMessage.sender) &&
+            setMessages((prev) => [...prev, arrivalMessage]);
+    }, [arrivalMessage, currentChat]);
+
+
+    useEffect(() => {
+        socket.current.emit("addUser", user._id);
+        socket.current.on("getUsers", (users) => {
+            setOnlineUsers(
+                user.followings.filter((f) => users.some((u) => u.userId === f))
+            );
+        });
+    }, [user]);
+
 
     useEffect(() => {
         const getConversation = async () => {
@@ -30,7 +64,6 @@ function Messenger() {
             setConversations(res.data)
         };
         getConversation();
-
     }, [user._id,])
 
 
@@ -71,6 +104,16 @@ function Messenger() {
                 conversationId: currentChat._id
             }
 
+            // finding Receiver Id for whom we sending message
+            const receiverId = currentChat.members.find(member => member !== user._id);
+
+            socket.current.emit("sendMessage", {
+                senderId: user._id,
+                receiverId,
+                text: newMessage
+
+            })
+
             try {
                 const res = await axios.post("http://localhost:5000/api/messages/", message);
                 setMessages([...messages, res.data])
@@ -84,6 +127,7 @@ function Messenger() {
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages])
+
 
     return (
         <>
@@ -153,11 +197,9 @@ function Messenger() {
                 <div className="chatOnline">
                     <div className="chatOnlineWrapper">
                         <h3>Online Friends</h3>
-                        <ChatOnline />
-                        <ChatOnline />
-                        <ChatOnline />
-                        <ChatOnline />
-                        <ChatOnline />
+
+                        <ChatOnline onlineUsers={onlineUsers} currentId={user._id} setCurrentChat={setCurrentChat} conversations={conversations} setConversations={setConversations} />
+
                     </div>
                 </div>
             </div>

@@ -39,18 +39,18 @@ const Profile = () => {
     }, [username])
 
     const uploadFileHandle = () => {
-        console.log(profileImg, coverImg)
-        try {
-            axios.put(`http://localhost:5000/api/users/${currentUser._id}`,
-                {
-                    userProfile: JSON.stringify(profileImg) || user.userProfile,
-                    coverProfile: JSON.stringify(coverImg) || user.coverProfile
-                }
-            )
-            window.location.reload()
-        } catch (error) {
-            console.warn(error)
-        }
+        // console.log(profileImg, coverImg)
+        // try {
+        //     axios.put(`http://localhost:5000/api/users/${currentUser._id}`,
+        //         {
+        //             userProfile: JSON.stringify(profileImg) || user.userProfile,
+        //             coverProfile: JSON.stringify(coverImg) || user.coverProfile
+        //         }
+        //     )
+        //     window.location.reload()
+        // } catch (error) {
+        //     console.warn(error)
+        // }
     }
 
     return (
