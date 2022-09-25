@@ -24,8 +24,8 @@ const Profile = () => {
     const [isEdit, setIsEdit] = useState(false)
     const coverRef = useRef(null)
     const profileRef = useRef(null)
-    const [coverImg, setCoverImg] = useState(null)
-    const [profileImg, setProfileImg] = useState(null)
+    const [coverImg, setCoverImg] = useState('')
+    const [profileImg, setProfileImg] = useState('')
 
     // const fileRef = useRef();
 
@@ -39,19 +39,25 @@ const Profile = () => {
     }, [username])
 
     const uploadFileHandle = () => {
-        // console.log(profileImg, coverImg)
-        // try {
-        //     axios.put(`http://localhost:5000/api/users/${currentUser._id}`,
-        //         {
-        //             userProfile: JSON.stringify(profileImg) || user.userProfile,
-        //             coverProfile: JSON.stringify(coverImg) || user.coverProfile
-        //         }
-        //     )
-        //     window.location.reload()
-        // } catch (error) {
-        //     console.warn(error)
-        // }
+        console.table(profileImg)
+        console.table(coverImg)
+
+        try {
+            axios.put(`http://localhost:5000/api/users/${currentUser._id}`,
+                {
+                    userProfile: JSON.stringify(profileImg) || user.userProfile,
+                    coverProfile: JSON.stringify(coverImg) || user.coverProfile
+                }
+            )
+            // window.location.reload()
+        } catch (error) {
+            console.warn(error)
+        }
     }
+
+    // useEffect(() => {
+    //     console.log(coverImg);
+    // }, [coverImg])
 
     return (
         <>
@@ -82,14 +88,15 @@ const Profile = () => {
                             }} />
 
 
-                            <input ref={profileRef} type="file" hidden onChange={(e) => setProfileImg(e.target.files[0])} />
+                            <input ref={profileRef} type="file" hidden onChange={(e) => setProfileImg(e.target.files[0])
+                            } />
 
                             {profileImg && <div className="previewImg">
                                 <div className="previewContainer">
                                     <img src={URL.createObjectURL(profileImg)} className='previewProfileImg' alt="" />
                                     <div className="buttons">
                                         <button className='uploadButton' onClick={uploadFileHandle} >Upload</button>
-                                        <button className='deleteButton' onClick={() => setProfileImg(null)} > Cancel </button>
+                                        <button className='deleteButton' onClick={() => setProfileImg('')} > Cancel </button>
                                     </div>
                                 </div>
                             </div>}

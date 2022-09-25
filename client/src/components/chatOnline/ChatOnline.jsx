@@ -21,8 +21,7 @@ function ChatOnline({ onlineUsers, currentId, setCurrentChat, conversations, set
         setOnlineFriends(friends.filter((f) => onlineUsers.includes(f._id)))
     }, [friends, onlineUsers])
 
-    console.log(onlineFriends);
-
+    // Handle Click On Online Friend Id
     const handleClick = async (user) => {
 
         if (conversations.filter(c => c.members.includes(user._id)).length > 0) {
