@@ -6,6 +6,8 @@ import PersonIcon from '@mui/icons-material/Person'
 import ChatIcon from '@mui/icons-material/Chat';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import LogoutIcon from '@mui/icons-material/Logout';
+import SettingsIcon from '@mui/icons-material/Settings';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
@@ -20,6 +22,7 @@ export default function Topbar() {
     const [allSearchUser, setAllSearchUser] = useState([])
     const [searchUsername, setSearchUsername] = useState('')
     const searchUser = useRef()
+    const [profileList, setProfileList] = useState(false)
 
     useEffect(() => {
         const getAllUsers = async () => {
@@ -79,8 +82,39 @@ export default function Topbar() {
                         <span className="topbarIconBadge">1</span>
                     </div>
                 </div>
-                <Link to={`/profile/${user.username}`}><img src={user.userProfile ? PF + user.userProfile : PF + '/noAvatar.webp'} alt="" className="topbarImg" /></Link>
-                {user && <LogoutIcon className='logoutButton' titleAccess='Logout' onClick={logoutHandler} />}
+                <div className='profile'>
+
+
+                    <img src={user.userProfile ? PF + user.userProfile : PF + '/noAvatar.webp'} alt="" className="topbarImg" onClick={() => setProfileList(p => !p)} />
+
+                    {
+                        profileList &&
+                        <ul className="profileList">
+                            <Link to={`/profile/${user.username}`}>
+                                <li className="profileListItem">
+                                    <PersonIcon className='profileItemIcon' /> My Profile
+                                </li>
+                            </Link>
+                            <Link to='#'>
+                                <li className="profileListItem">
+                                    <SettingsIcon className='profileItemIcon' /> Settings
+                                </li>
+                            </Link>
+                            <Link to='#'>
+                                <li className="profileListItem">
+                                    <AccountBoxIcon className='profileItemIcon' /> Account
+                                </li>
+                            </Link>
+                            <Link to='#'>
+                                <li className="profileListItem">
+                                    <LogoutIcon className='profileItemIcon' onClick={logoutHandler} /> Logout
+                                </li>
+                            </Link>
+                        </ul>
+
+                    }
+                </div>
+
             </div>
             {
                 searchUsername && <div className="searchUserContainer">

@@ -172,3 +172,33 @@
     color: #000;
 }
 
+
+.profile{
+    position: relative;
+}
+
+.profileList{
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #eaeaea;
+    border-radius: 5px;
+    padding: 10px 2px;
+    width: 150px;
+}
+
+.profileListItem{
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-self: center
+}
+
+.profileItemIcon{
+    margin-right:5px;
+}
+
+.profileListItem:hover{
+    background-color: #66666622;
+}
